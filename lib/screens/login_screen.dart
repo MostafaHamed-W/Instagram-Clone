@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: primaryColor,
               ),
               const SizedBox(height: 64),
-              // username or email textfield
+              // email textfield
               TextFieldInput(
                 inputController: _emailController,
                 hintText: "Username, email or mobile number",
@@ -55,19 +55,21 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               //login button
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: const ShapeDecoration(
-                  color: blueColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
+              InkWell(
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const ShapeDecoration(
+                    color: blueColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
                     ),
                   ),
+                  child: const Text("Log in"),
                 ),
-                child: const Text("Log in"),
               ),
               Flexible(flex: 4, child: Container()),
               Row(
@@ -77,12 +79,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 7),
                     child: const Text("Don't have an account"),
                   ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
-                    child: const Text(
-                      "Sign up.",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7, horizontal: 5),
+                      child: const Text(
+                        "Sign up.",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   )
                 ],
