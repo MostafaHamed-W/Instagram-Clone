@@ -38,11 +38,29 @@ class _SignUpScreen extends State<SignUpScreen> {
               Flexible(flex: 4, child: Container()),
               //svg image of instagram
               SvgPicture.asset(
-                'lib/assets/instagram_clone.svg',
+                'assets/instagram_clone.svg',
                 height: 64,
                 color: primaryColor,
               ),
-              const SizedBox(height: 64),
+              const SizedBox(height: 50),
+              // circular user photo
+              Stack(
+                children: [
+                  const CircleAvatar(
+                    radius: 64,
+                    backgroundImage: AssetImage('assets/personal_photo_1.jpg'),
+                  ),
+                  Positioned(
+                    bottom: -2,
+                    right: -2,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.add_a_photo_rounded),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               // email textfield
               TextFieldInput(
                 inputController: _emailController,
@@ -95,7 +113,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 7),
-                    child: const Text("Don't have an account"),
+                    child: const Text("Already have an account?"),
                   ),
                   GestureDetector(
                     onTap: () {},
@@ -103,7 +121,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 7, horizontal: 5),
                       child: const Text(
-                        "Sign up.",
+                        "Log in.",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

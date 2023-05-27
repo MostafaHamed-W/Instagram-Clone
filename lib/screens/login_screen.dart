@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Flexible(flex: 4, child: Container()),
               //svg image of instagram
               SvgPicture.asset(
-                'lib/assets/instagram_clone.svg',
+                'assets/instagram_clone.svg',
                 height: 64,
                 color: primaryColor,
               ),
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // email textfield
               TextFieldInput(
                 inputController: _emailController,
-                hintText: "Username, email or mobile number",
+                hintText: "Enter Email",
                 keyboardType: TextInputType.text,
               ),
               // password text field
