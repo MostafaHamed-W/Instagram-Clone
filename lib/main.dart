@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Instagram Clone',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
       home:
           //   const ResponsiveLayout(
           //   webScreenLayout: WebScreenLayout(),
