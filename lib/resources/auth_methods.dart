@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone/resources/storage_methods.dart';
+import 'package:instagram_clone/model/user.dart' as model;
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -26,16 +27,17 @@ class AuthMethods {
 
         String photoUrl = await StorageMethods().uploadImageToStorage("profilePics", file, false);
 
+        //create user model
+        model.User user = model.User(
+            email: email,
+            username: username,
+            uid: cred.user!.uid,
+            fullname: fullname,
+            followers: [],
+            following: []);
+
         // add user to our database
-        _firestore.collection('users').doc(cred.user!.uid).set({
-          "email": email,
-          "username": username,
-          "uid": cred.user!.uid,
-          "fullname": fullname,
-          "followers": [],
-          "following": [],
-          "profilePhotoUrl": photoUrl,
-        });
+        _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
 
         //this methods adds random uid by firebase
         // _firestore.collection('users').add({
