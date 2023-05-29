@@ -49,13 +49,32 @@ class AuthMethods {
 
         result = "success";
       }
-    } on FirebaseAuthException catch (err) {
-      if (err.code == "invalid-email") {
-        result = 'the email is badly formatted';
-      } else if (err.code == "weak-password") {
-        result = " Your password is weak";
-      }
     } catch (err) {
+      result = err.toString();
+    }
+    return result;
+  }
+
+  // logging in user function
+  Future<String> loginUser({required String email, required String password}) async {
+    String result = "Some error occurred.";
+
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        UserCredential cred =
+            await _auth.signInWithEmailAndPassword(email: email, password: password);
+        print(cred.user!.uid);
+        result = "Logged in successfully";
+      } else {
+        result = "Please enter all the fileds";
+      }
+    }
+    // on FirebaseAuthException catch (e) {
+    //   if (e.code == "wrong-password") {
+    //     result = "Wrong Pass!";
+    //   }
+    // }
+    catch (err) {
       result = err.toString();
     }
     return result;
