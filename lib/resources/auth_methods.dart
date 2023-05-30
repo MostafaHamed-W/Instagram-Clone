@@ -9,17 +9,29 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap =
+        await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+    return model.User.fromSnap(snap);
+  }
+
   // sign up user
   Future<String> signUpUsers({
     required String email,
     required String password,
     required String username,
     required String fullname,
+    required String bio,
     required Uint8List file,
   }) async {
     String result = "Some error occurred";
     try {
-      if (email.isNotEmpty || password.isNotEmpty || username.isNotEmpty || fullname.isNotEmpty) {
+      if (email.isNotEmpty ||
+          password.isNotEmpty ||
+          username.isNotEmpty ||
+          fullname.isNotEmpty ||
+          bio.isNotEmpty) {
         //register user
         UserCredential cred =
             await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -33,6 +45,7 @@ class AuthMethods {
             username: username,
             uid: cred.user!.uid,
             fullname: fullname,
+            bio: bio,
             followers: [],
             following: []);
 

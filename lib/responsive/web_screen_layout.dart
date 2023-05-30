@@ -1,13 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/providers/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:instagram_clone/model/user.dart' as model;
 
 class WebScreenLayout extends StatelessWidget {
   const WebScreenLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    // model.User user = Provider.of<UserProvider>(context).getUser;
+
+    return Scaffold(
       body: Center(
-        child: Text("This is web"),
+        child: Text("username"),
       ),
     );
   }

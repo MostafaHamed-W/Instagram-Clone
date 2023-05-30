@@ -25,6 +25,7 @@ class _SignUpScreen extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
   Uint8List? _image;
   bool _isLoading = false;
 
@@ -53,19 +54,20 @@ class _SignUpScreen extends State<SignUpScreen> {
       password: _passwordController.text,
       username: _usernameController.text,
       fullname: _fullNameController.text,
+      bio: _bioController.text,
       file: _image!,
     );
 
     if (result != "success") {
       showSnackBar(context, result);
+    } else {
+      showSnackBar(context, "Sign up successfully");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return ResponsiveLayout(
           webScreenLayout: WebScreenLayout(),
           mobileScreenLayout: MobileScreenLayout(),
         );
       }));
-    } else {
-      showSnackBar(context, "Sign up successfully");
     }
     setState(() {
       _isLoading = false;
@@ -141,6 +143,13 @@ class _SignUpScreen extends State<SignUpScreen> {
                 TextFieldInput(
                   inputController: _fullNameController,
                   hintText: "Full Name",
+                  keyboardType: TextInputType.text,
+                ),
+                const SizedBox(height: 20),
+                // fullname textfield
+                TextFieldInput(
+                  inputController: _bioController,
+                  hintText: "Bio",
                   keyboardType: TextInputType.text,
                 ),
                 const SizedBox(height: 20),
