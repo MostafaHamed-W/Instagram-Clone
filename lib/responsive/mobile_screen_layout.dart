@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/model/user.dart' as model;
 import 'package:instagram_clone/utilities/colors.dart';
+import 'package:instagram_clone/utilities/globalVariables.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/provider.dart';
@@ -14,8 +15,18 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  PageController pageController = PageController();
+  late PageController pageController;
   int _page = 0;
+  @override
+  void initState() {
+    pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
 
   void onNavigationTappped(int page) {
     pageController.jumpToPage(page);
@@ -36,50 +47,47 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         controller: pageController,
         onPageChanged: onPageChanged,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          Center(child: Text("Home")),
-          Center(child: Text("Search")),
-          Center(child: Text("Add Photo")),
-          Center(child: Text("Favourite")),
-          Center(child: Text("Profile")),
-        ],
+        children: homeScreenItems,
       ),
-      bottomNavigationBar: CupertinoTabBar(
-        backgroundColor: mobileBackgroundColor,
-        items: [
-          BottomNavigationBarItem(
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        child: CupertinoTabBar(
+          backgroundColor: mobileBackgroundColor,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: _page == 0 ? primaryColor : secondaryColor,
+                ),
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.search,
+                  color: _page == 1 ? primaryColor : secondaryColor,
+                ),
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.add_circle,
+                  color: _page == 2 ? primaryColor : secondaryColor,
+                ),
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.favorite,
+                  color: _page == 3 ? primaryColor : secondaryColor,
+                ),
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
-                color: _page == 0 ? primaryColor : secondaryColor,
+                Icons.person,
+                color: _page == 4 ? primaryColor : secondaryColor,
               ),
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search,
-                color: _page == 1 ? primaryColor : secondaryColor,
-              ),
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add_circle,
-                color: _page == 2 ? primaryColor : secondaryColor,
-              ),
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                color: _page == 3 ? primaryColor : secondaryColor,
-              ),
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: _page == 4 ? primaryColor : secondaryColor,
+              backgroundColor: primaryColor,
             ),
-            backgroundColor: primaryColor,
-          ),
-        ],
-        onTap: onNavigationTappped,
+          ],
+          onTap: onNavigationTappped,
+        ),
       ),
     );
   }
