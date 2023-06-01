@@ -15,6 +15,19 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
+  _selectImage(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("Create a post"),
+            children: [
+              SimpleDialogOption(),
+            ],
+          );
+        });
+  }
+
   late PageController pageController;
   int _page = 0;
   @override
@@ -40,7 +53,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    model.User user = Provider.of<UserProvider>(context).getUser;
+    // model.User user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       body: PageView(

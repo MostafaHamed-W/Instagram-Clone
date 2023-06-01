@@ -31,7 +31,8 @@ class AuthMethods {
           password.isNotEmpty ||
           username.isNotEmpty ||
           fullname.isNotEmpty ||
-          bio.isNotEmpty) {
+          bio.isNotEmpty ||
+          file != null) {
         //register user
         UserCredential cred =
             await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -41,13 +42,15 @@ class AuthMethods {
 
         //create user model
         model.User user = model.User(
-            email: email,
-            username: username,
-            uid: cred.user!.uid,
-            fullname: fullname,
-            bio: bio,
-            followers: [],
-            following: []);
+          email: email,
+          username: username,
+          uid: cred.user!.uid,
+          fullname: fullname,
+          bio: bio,
+          followers: [],
+          following: [],
+          photoUrl: photoUrl,
+        );
 
         // add user to our database
         _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());

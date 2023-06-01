@@ -9,11 +9,11 @@ class WebScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // model.User user = Provider.of<UserProvider>(context).getUser;
+    model.User user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       body: Center(
-        child: Text("username"),
+        child: Text("my name is ${user.fullname} iam ${user.bio}"),
       ),
     );
   }
