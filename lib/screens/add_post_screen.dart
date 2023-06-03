@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/providers/provider.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/utilities.dart';
@@ -18,8 +17,48 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
+  bool _isLoading = false;
   Uint8List? _file;
-  _selectImage(BuildContext context) async {
+  final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      selectImage(context);
+    });
+  }
+
+  void postImage(
+    String uid,
+    String profileImg,
+    String username,
+  ) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      String result = await FirestoreMethods()
+          .uploadPost(_descriptionController.text, _file!, uid, username, profileImg);
+      if (result == "success") {
+        setState(() {
+          _isLoading = false;
+        });
+        clearImage();
+        showSnackBar(context, "Post uploaded successfully");
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(context, result);
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  selectImage(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -46,14 +85,33 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 },
               ),
+              SimpleDialogOption(
+                child: const Text('Cancel'),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
             ],
           );
         });
   }
 
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _descriptionController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final user = userProvider.getUser;
     String name = userProvider.getUser.email;
     return _file == null
         ? Center(
@@ -61,7 +119,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: IconButton(
                 onPressed: () {
                   print(name);
-                  _selectImage(context);
+                  selectImage(context);
                 },
                 icon: const Icon(Icons.upload),
               ),
@@ -72,11 +130,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
               backgroundColor: mobileBackgroundColor,
               title: const Text("New post"),
               centerTitle: true,
-              leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+              leading: IconButton(
+                  onPressed: () {
+                    clearImage();
+                  },
+                  icon: const Icon(Icons.arrow_back)),
               actions: [
                 TextButton(
                   onPressed: () {
-                    _selectImage(context);
+                    postImage(user.uid, user.photoUrl, user.username);
                   },
                   child: const Text(
                     "Share",
@@ -90,6 +152,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             body: Column(
               children: [
+                _isLoading
+                    ? const LinearProgressIndicator()
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 0),
+                      ),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,8 +167,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      child: const TextField(
-                        decoration: InputDecoration(
+                      child: TextField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(
                           hintText: "Write a caption...",
                           border: InputBorder.none,
                         ),
