@@ -114,17 +114,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final user = userProvider.getUser;
     String name = userProvider.getUser.email;
     return _file == null
-        ? Center(
-            child: Container(
-              child: IconButton(
-                onPressed: () {
-                  print(name);
-                  selectImage(context);
-                },
-                icon: const Icon(Icons.upload),
-              ),
-            ),
-          )
+        ? Container()
+        //Center(
+        //     child: IconButton(
+        //       onPressed: () {
+        //         print(name);
+        //         selectImage(context);
+        //       },
+        //       icon: const Icon(Icons.upload),
+        //     ),
+        //   )
         : Scaffold(
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
