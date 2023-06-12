@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
+import 'package:instagram_clone/screens/comment_screen.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -19,10 +20,10 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+  bool isBookmarked = false;
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
-    bool isBookmarked = false;
 
     return Container(
       color: mobileBackgroundColor,
@@ -93,7 +94,7 @@ class _PostCardState extends State<PostCard> {
             onDoubleTap: () async {
               await FirestoreMethods().likePost(
                 postId: widget.snap['postId'],
-                uid: widget.snap['uid'],
+                uid: user.uid,
                 likes: widget.snap['likes'],
               );
               setState(() {
@@ -152,7 +153,14 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CommentScreen(
+                                snap: widget.snap,
+                              )));
+                },
                 icon: const FaIcon(
                   FontAwesomeIcons.comment,
                 ),
@@ -170,7 +178,11 @@ class _PostCardState extends State<PostCard> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        isBookmarked = !isBookmarked;
+                      });
+                    },
                     icon: FaIcon(
                       isBookmarked == true
                           ? FontAwesomeIcons.solidBookmark
