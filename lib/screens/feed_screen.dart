@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instagram_clone/utilities/globalVariables.dart';
+
+import '../widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
