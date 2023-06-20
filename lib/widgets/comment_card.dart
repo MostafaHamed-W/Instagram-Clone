@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/providers/provider.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
+import 'package:instagram_clone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../model/user.dart';
 import '../utilities/colors.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CommentCard extends StatefulWidget {
   final snap;
@@ -24,7 +27,7 @@ class _CommentCardState extends State<CommentCard> {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundImage: NetworkImage(user.photoUrl),
+            backgroundImage: NetworkImage(widget.snap['profilePic']),
           ),
           Expanded(
             child: Padding(
@@ -41,30 +44,97 @@ class _CommentCardState extends State<CommentCard> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const TextSpan(
-                          text: " some description to insert",
+                          text: '  ',
+                        ),
+                        TextSpan(
+                          text: DateFormat.E()
+                              .format(widget.snap['datePublished'].toDate())
+                              .toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: secondaryColor,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Text(
-                      "13/06/2023",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: secondaryColor,
-                      ),
+                      widget.snap['commentText'],
+                      style: const TextStyle(fontSize: 15),
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Visibility(
+                        visible: widget.snap['likes'].length != 0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: secondaryColor,
+                                fontSize: 13,
+                              ),
+                              children: [
+                                TextSpan(text: '${widget.snap['likes'].length}'),
+                                const TextSpan(text: ' '),
+                                const TextSpan(text: 'likes')
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Text(
+                          'Reply',
+                          style: TextStyle(
+                            color: secondaryColor,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        'See translition',
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(8),
-            child: Icon(
-              Icons.favorite,
-              size: 16,
+            padding: const EdgeInsets.all(8),
+            child: LikeAnimation(
+              smallLike: true,
+              isAnimating: widget.snap['likes'].contains(user.uid),
+              child: GestureDetector(
+                onTap: () async {
+                  FirestoreMethods().likeComment(
+                    postId: widget.snap['postId'],
+                    uid: user.uid,
+                    commentId: widget.snap['commentId'],
+                    likes: widget.snap['likes'],
+                  );
+                },
+                child: widget.snap['likes'].contains(user.uid)
+                    ? const FaIcon(
+                        FontAwesomeIcons.solidHeart,
+                        size: 14,
+                        color: Colors.red,
+                      )
+                    : const FaIcon(
+                        FontAwesomeIcons.heart,
+                        size: 14,
+                      ),
+              ),
             ),
           )
         ],
@@ -72,27 +142,3 @@ class _CommentCardState extends State<CommentCard> {
     );
   }
 }
-
-
-
-
-// Container(
-//       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               CircleAvatar(
-//                 radius: 16,
-//                 backgroundImage: NetworkImage(widget.snap['profImg']),
-//               ),
-//               Text(
-//                 DateFormat.Hm().format(widget.snap['datePublished'].toDate()),
-//                 style: const TextStyle(color: secondaryColor),
-//               ),
-//             ],
-//           )
-//         ],
-//       ),
-//     );

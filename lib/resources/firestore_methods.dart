@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   // upload post
   Future<String> uploadPost(
     String description,
@@ -20,14 +21,15 @@ class FirestoreMethods {
       String photoUrl = await StorageMethods().uploadImageToStorage('posts', file, true);
       String postId = const Uuid().v1();
       Post post = Post(
-          description: description,
-          uid: uid,
-          username: username,
-          postId: postId,
-          datePublished: DateTime.now(),
-          postUrl: photoUrl,
-          profImg: profileImg,
-          likes: []);
+        description: description,
+        uid: uid,
+        username: username,
+        postId: postId,
+        datePublished: DateTime.now(),
+        postUrl: photoUrl,
+        profImg: profileImg,
+        likes: [],
+      );
 
       _firestore.collection('posts').doc(postId).set(post.toJson());
       result = "success";
@@ -48,6 +50,81 @@ class FirestoreMethods {
           'likes': FieldValue.arrayUnion([uid]),
         });
       }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //comment on post
+  Future<void> commentPost({
+    required String commentText,
+    required String postId,
+    required String uid,
+    required String username,
+    required String profilePic,
+  }) async {
+    try {
+      if (commentText.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        await FirebaseFirestore.instance
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'commentText': commentText,
+          'commentId': commentId,
+          'postId': postId,
+          'uid': uid,
+          'username': username,
+          'profilePic': profilePic,
+          'datePublished': DateTime.now(),
+          'likes': []
+        });
+      } else {
+        print("comment is empty");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+// like comment
+  Future<void> likeComment({
+    required postId,
+    required String uid,
+    required String commentId,
+    required List likes,
+  }) async {
+    try {
+      if (likes.contains(uid)) {
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .update({
+          'likes': FieldValue.arrayRemove([uid])
+        });
+      } else {
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .update({
+          'likes': FieldValue.arrayUnion([uid])
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  // deleting a post
+  Future<void> deletePost({required postId}) async {
+    try {
+      await _firestore.collection('posts').doc(postId).delete();
     } catch (e) {
       print(e.toString());
     }

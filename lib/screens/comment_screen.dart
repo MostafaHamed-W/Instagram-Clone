@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/providers/provider.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/widgets/comment_card.dart';
 import 'package:intl/intl.dart';
@@ -18,10 +20,41 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _commentEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+
+    InputDecoration commentTextFieldDecoration() {
+      return InputDecoration(
+        suffix: TextButton(
+          child: const Text("Post"),
+          onPressed: () async {
+            await FirestoreMethods().commentPost(
+                commentText: _commentEditingController.text,
+                postId: widget.snap['postId'],
+                uid: widget.snap['uid'],
+                username: user.username,
+                profilePic: user.photoUrl);
+            setState(() {
+              _commentEditingController.text = '';
+            });
+          },
+        ),
+        hintText: "Add a comment for ${widget.snap['username']}",
+        hintStyle: TextStyle(color: secondaryColor.withOpacity(0.6)),
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          borderSide: BorderSide(color: secondaryColor.withOpacity(0.6), width: 0.8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          borderSide: BorderSide(color: secondaryColor.withOpacity(0.6), width: 0.8),
+        ),
+        contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -122,7 +155,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                     child: TextFormField(
-                      controller: _textEditingController,
+                      controller: _commentEditingController,
                       decoration: commentTextFieldDecoration(),
                     ),
                   )),
@@ -132,42 +165,41 @@ class _CommentScreenState extends State<CommentScreen> {
           ],
         ),
       ),
-      body: CommentCard(
-        snap: widget.snap,
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.snap['postId'])
+            .collection('comments')
+            .orderBy('datePublished', descending: false) //  order of comments
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: (snapshot.data! as dynamic).docs.length,
+              itemBuilder: (context, index) => CommentCard(
+                snap: snapshot.data!.docs[index],
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
   void addEmoji(String emoji) {
     // Insert emoji into the TextFieldForm
-    _textEditingController.text += emoji;
-    _textEditingController.text += "  ";
+    _commentEditingController.text += emoji;
+    _commentEditingController.text += "  ";
     // to prevent select all that pop up
-    _textEditingController.selection =
-        TextSelection.collapsed(offset: _textEditingController.text.length);
+    _commentEditingController.selection =
+        TextSelection.collapsed(offset: _commentEditingController.text.length);
     // Move the cursor to the end of the text
-    _textEditingController.selection = TextSelection.fromPosition(
-      TextPosition(offset: _textEditingController.text.length),
-    );
-  }
-
-  InputDecoration commentTextFieldDecoration() {
-    return InputDecoration(
-      suffix: TextButton(
-        child: const Text("Post"),
-        onPressed: () {},
-      ),
-      hintText: "Add a comment for ${widget.snap['username']}",
-      hintStyle: TextStyle(color: secondaryColor.withOpacity(0.6)),
-      border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(30)),
-        borderSide: BorderSide(color: secondaryColor.withOpacity(0.6), width: 0.8),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(30)),
-        borderSide: BorderSide(color: secondaryColor.withOpacity(0.6), width: 0.8),
-      ),
-      contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
+    _commentEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _commentEditingController.text.length),
     );
   }
 }

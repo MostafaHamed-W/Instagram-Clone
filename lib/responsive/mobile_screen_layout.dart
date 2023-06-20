@@ -4,6 +4,7 @@ import 'package:instagram_clone/model/user.dart' as model;
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/globalVariables.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../providers/provider.dart';
 
@@ -86,8 +87,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.favorite,
+                icon: FaIcon(
+                  FontAwesomeIcons.circlePlay,
                   color: _page == 3 ? primaryColor : secondaryColor,
                 ),
                 backgroundColor: primaryColor),
