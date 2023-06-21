@@ -78,19 +78,21 @@ class _SearchScreanState extends State<SearchScrean> {
                     child: CircularProgressIndicator(),
                   );
                 }
-
+                var photos = (snapshot.data! as dynamic).docs.map((doc) => doc['postUrl']).toList();
+                photos.shuffle();
                 return StaggeredGridView.countBuilder(
                   crossAxisCount: 3,
-                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  itemCount: photos.length,
                   itemBuilder: (context, index) => Image.network(
-                    (snapshot.data! as dynamic).docs[index]['postUrl'],
+                    photos[index],
+                    fit: BoxFit.cover,
                   ),
                   staggeredTileBuilder: (index) => StaggeredTile.count(
                     (index % 7 == 0 ? 2 : 1),
                     (index % 7 == 0 ? 2 : 1),
                   ),
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 2,
                 );
               },
             ),
