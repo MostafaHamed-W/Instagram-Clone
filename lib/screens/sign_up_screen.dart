@@ -63,7 +63,7 @@ class _SignUpScreen extends State<SignUpScreen> {
     } else {
       showSnackBar(context, "Sign up successfully");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return ResponsiveLayout(
+        return const ResponsiveLayout(
           webScreenLayout: WebScreenLayout(),
           mobileScreenLayout: MobileScreenLayout(),
         );
@@ -76,7 +76,7 @@ class _SignUpScreen extends State<SignUpScreen> {
 
   void navigateToLogin() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginScreen();
+      return const LoginScreen();
     }));
   }
 

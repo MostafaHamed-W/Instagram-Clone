@@ -7,7 +7,6 @@ import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/utilities.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/user.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});

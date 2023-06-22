@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/screens/comment_screen.dart';
@@ -79,7 +78,7 @@ class _PostCardState extends State<PostCard> {
                           widget.snap['username'],
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text("Tanta")
+                        const Text("Tanta")
                       ],
                     ),
                   ),

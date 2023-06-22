@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = false;
       });
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return ResponsiveLayout(
+        return const ResponsiveLayout(
           webScreenLayout: WebScreenLayout(),
           mobileScreenLayout: MobileScreenLayout(),
         );
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void navigateToSignup() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return SignUpScreen();
+      return const SignUpScreen();
     }));
   }
 

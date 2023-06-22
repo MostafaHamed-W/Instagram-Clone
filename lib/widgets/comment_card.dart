@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/providers/provider.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';

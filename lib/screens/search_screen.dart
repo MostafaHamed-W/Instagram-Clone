@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

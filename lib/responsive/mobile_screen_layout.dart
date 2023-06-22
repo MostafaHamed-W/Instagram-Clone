@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/model/user.dart' as model;
 import 'package:instagram_clone/utilities/colors.dart';
-import 'package:instagram_clone/utilities/globalVariables.dart';
+import 'package:instagram_clone/utilities/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
