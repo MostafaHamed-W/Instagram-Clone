@@ -4,6 +4,7 @@ import 'package:instagram_clone/resources/auth_methods.dart';
 
 import 'package:instagram_clone/screens/sign_up_screen.dart';
 import 'package:instagram_clone/utilities/colors.dart';
+import 'package:instagram_clone/utilities/global_variables.dart';
 import 'package:instagram_clone/utilities/utilities.dart';
 import 'package:instagram_clone/widgets/text_field.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -68,7 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: ModalProgressHUD(
           inAsyncCall: _isLoading,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+            padding: MediaQuery.of(context).size.width > webScreenSize
+                ? EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4)
+                : const EdgeInsets.symmetric(horizontal: 32),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

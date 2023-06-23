@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/screens/comment_screen.dart';
+import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/utilities.dart';
 import 'package:instagram_clone/widgets/like_animation.dart';
@@ -74,9 +75,17 @@ class _PostCardState extends State<PostCard> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.snap['username'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(uid: widget.snap['uid'])));
+                          },
+                          child: Text(
+                            widget.snap['username'],
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const Text("Tanta")
                       ],
