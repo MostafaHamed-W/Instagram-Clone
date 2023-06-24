@@ -12,6 +12,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../model/user.dart';
 import 'package:instagram_clone/providers/provider.dart';
 
+import '../utilities/global_variables.dart';
+
 class PostCard extends StatefulWidget {
   final snap;
   const PostCard({super.key, required this.snap});
@@ -50,6 +52,7 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+    final width = MediaQuery.of(context).size.width;
 
     return Container(
       color: mobileBackgroundColor,
@@ -142,7 +145,12 @@ class _PostCardState extends State<PostCard> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+                    ),
+                  ),
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: double.infinity,
                   child: Image.network(
@@ -290,7 +298,7 @@ class _PostCardState extends State<PostCard> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

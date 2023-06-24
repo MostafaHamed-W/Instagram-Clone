@@ -16,24 +16,27 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  _selectImage(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text("Create a post"),
-            children: [
-              SimpleDialogOption(),
-            ],
-          );
-        });
-  }
-
   late PageController pageController;
   int _page = 0;
+
   @override
   void initState() {
+    super.initState();
     pageController = PageController();
+  }
+
+  _selectImage(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return const SimpleDialog(
+          title: Text("Create a post"),
+          children: [
+            SimpleDialogOption(),
+          ],
+        );
+      },
+    );
   }
 
   @override

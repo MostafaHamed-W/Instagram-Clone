@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:instagram_clone/utilities/global_variables.dart';
 
 class SearchScrean extends StatefulWidget {
   const SearchScrean({super.key});
@@ -92,10 +93,15 @@ class _SearchScreanState extends State<SearchScrean> {
                     photos[index],
                     fit: BoxFit.cover,
                   ),
-                  staggeredTileBuilder: (index) => StaggeredTile.count(
-                    (index % 7 == 0 ? 2 : 1),
-                    (index % 7 == 0 ? 2 : 1),
-                  ),
+                  staggeredTileBuilder: (index) => MediaQuery.of(context).size.width > webScreenSize
+                      ? StaggeredTile.count(
+                          (index % 7 == 0 ? 1 : 1),
+                          (index % 7 == 0 ? 1 : 1),
+                        )
+                      : StaggeredTile.count(
+                          (index % 7 == 0 ? 2 : 1),
+                          (index % 7 == 0 ? 2 : 1),
+                        ),
                   mainAxisSpacing: 2,
                   crossAxisSpacing: 2,
                 );
