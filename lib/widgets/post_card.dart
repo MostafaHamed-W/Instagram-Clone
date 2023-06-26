@@ -151,8 +151,8 @@ class _PostCardState extends State<PostCard> {
                       color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
                     ),
                   ),
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  width: double.infinity,
+                  height: width > webScreenSize ? width / 2 : width,
+                  width: width > webScreenSize ? width / 2 : width,
                   child: Image.network(
                     widget.snap['postUrl'],
                     fit: BoxFit.cover,
