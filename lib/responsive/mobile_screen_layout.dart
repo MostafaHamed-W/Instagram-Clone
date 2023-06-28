@@ -5,7 +5,7 @@ import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../providers/provider.dart';
 
 class MobileScreenLayout extends StatefulWidget {
@@ -84,17 +84,18 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.add_circle,
-                  color: _page == 2 ? primaryColor : secondaryColor,
-                ),
-                backgroundColor: primaryColor),
+                icon: SvgPicture.asset(
+              'assets/add.svg',
+              width: 30,
+              color: _page == 2 ? primaryColor : secondaryColor,
+            )),
             BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.circlePlay,
-                  color: _page == 3 ? primaryColor : secondaryColor,
-                ),
-                backgroundColor: primaryColor),
+              icon: SvgPicture.asset(
+                'assets/instagram_reel.svg',
+                width: 30,
+                color: _page == 3 ? primaryColor : secondaryColor,
+              ),
+            ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,

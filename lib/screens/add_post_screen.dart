@@ -2,11 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/providers/provider.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
+import 'package:instagram_clone/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram_clone/utilities/colors.dart';
 import 'package:instagram_clone/utilities/utilities.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -46,6 +47,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
         clearImage();
         showSnackBar(context, "Post uploaded successfully");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MobileScreenLayout()));
       } else {
         setState(() {
           _isLoading = false;

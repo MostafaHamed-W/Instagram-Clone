@@ -18,8 +18,8 @@ class _SearchScreanState extends State<SearchScrean> {
 
   @override
   void dispose() {
-    super.dispose();
     searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,18 +57,24 @@ class _SearchScreanState extends State<SearchScrean> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
+                    var doc = snapshot.data!.docs[index];
+                    var data = doc.data();
+                    if (!data.containsKey('username') || !data.containsKey('photoUrl')) {
+                      // If the document data is null or does not contain the 'username' or 'photoUrl' fields,
+                      // return an empty container or an error widget.
+                      return Container();
+                    }
                     return InkWell(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              ProfileScreen(uid: (snapshot.data as dynamic).docs[index]['uid']))),
+                      onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ProfileScreen(uid: data['uid']))),
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                            (snapshot.data as dynamic).docs[index]['photoUrl'],
+                            data['photoUrl'],
                           ),
                         ),
                         title: Text(
-                          (snapshot.data! as dynamic).docs[index]['username'],
+                          data['username'],
                         ),
                       ),
                     );

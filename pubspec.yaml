@@ -62,6 +62,14 @@ flutter:
   assets:
     - assets/instagram_clone.svg
     - assets/personal_photo_1.jpg
+    - assets/instagram-reel.svg
+    - assets/instagram.svg
+    - assets/camera_svgrepo_com.svg
+    - assets/instagram_reel.svg
+    - assets/add.svg
+
+
+    
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -7,6 +7,8 @@ import 'package:instagram_clone/screens/login_screen.dart';
 import '../utilities/colors.dart';
 import '../utilities/utilities.dart';
 import '../widgets/follow_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -228,27 +230,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else {
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: (snapshot.data! as dynamic).docs.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 1,
-                          mainAxisSpacing: 1,
-                          childAspectRatio: 1,
-                        ),
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
-                          return Container(
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                snap['postUrl'],
+                      return (snapshot.data! as dynamic).docs.length == 0
+                          ? SizedBox(
+                              height: 400,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(90),
+                                        border: Border.all(color: Colors.white)),
+                                    child: SvgPicture.asset(
+                                      'assets/camera_svgrepo_com.svg',
+                                      color: Colors.white,
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'No posts yet',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              itemCount: (snapshot.data! as dynamic).docs.length,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 1,
+                                mainAxisSpacing: 1,
+                                childAspectRatio: 1,
+                              ),
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                                return Container(
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      snap['postUrl'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                     }
                   },
                 )
