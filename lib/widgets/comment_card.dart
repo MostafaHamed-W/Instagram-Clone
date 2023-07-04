@@ -5,11 +5,13 @@ import 'package:instagram_clone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../model/user.dart';
+import '../screens/profile_screen.dart';
 import '../utilities/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CommentCard extends StatefulWidget {
   final snap;
+
   const CommentCard({super.key, required this.snap});
 
   @override
@@ -35,27 +37,38 @@ class _CommentCardState extends State<CommentCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: widget.snap['username'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const TextSpan(
-                          text: '  ',
-                        ),
-                        TextSpan(
-                          text: DateFormat.E()
-                              .format(widget.snap['datePublished'].toDate())
-                              .toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: secondaryColor,
+                  GestureDetector(
+                    onTap: () {
+                      print(widget.snap['username']);
+                      print(widget.snap['uid']);
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen(uid: widget.snap['uid'])));
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: widget.snap['username'],
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
+                          const TextSpan(
+                            text: '  ',
+                          ),
+                          TextSpan(
+                            text: DateFormat.E()
+                                .format(widget.snap['datePublished'].toDate())
+                                .toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: secondaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(

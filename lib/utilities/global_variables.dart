@@ -5,7 +5,7 @@ import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/screens/search_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-const webScreenSize = 600;
+const webScreenSize = 500;
 List<Widget> homeScreenItems = [
   const FeedScreen(),
   const SearchScrean(),
