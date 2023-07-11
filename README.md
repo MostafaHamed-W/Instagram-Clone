@@ -1,17 +1,48 @@
 # instagram_clone
 
-A new Flutter project.
+Full Stack Instagram Clone 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+using Flutter and Firebase to make a completely Responsive Instagram Clone Application that Works on iOS, Android & Web!
 
-A few resources to get you started if this is your first Flutter project:
+Some instagram-Clone App Features ✨:
+•Responsive UI Design (Mobile & Web)
+•Creating account using Gmail
+•Email & Password Authentication
+•Share Posts with Caption
+•Display Posts with Caption
+•Like & Comment on Posts
+•Like & dislike Animation
+•Search Users
+•Follow Users
+•Explore Posts
+•Display User Posts, Followers & Following
+•EVERYTHING REAL TIME
+•Sign Out
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Tools:
+•Flutter
+•Dart 
+•Provider
+•Firebase Auth
+•Firebase Storage
+•Firebase Firestore
+•Version Control System (Git, GitHub)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Libraries:
+•Cloud Firestore
+•Firebase Auth
+•Firebase Core
+•Firebase Storage
+•Provider
+•intl
+•Flutter Lints
+•Flutter Staggered Grid View
+•uuid
+•Flutter Svg
+•image Picker
+•Font Awesome Flutter
+•Cupertino icons
+
 # Instagram-Clone
