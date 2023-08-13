@@ -1,7 +1,7 @@
-#Instagram Clone     
+# Instagram Clone     
 using Flutter and Firebase to make a completely Responsive Full Stack Instagram Clone Application that Works on iOS, Android & Web!   
 
--Some instagram-Clone App Features:   
+## -Some instagram-Clone App Features:   
 •Responsive UI Design (Mobile & Web)   
 •Creating account using Gmail   
 •Email & Password Authentication   
@@ -17,7 +17,7 @@ using Flutter and Firebase to make a completely Responsive Full Stack Instagram 
 •Sign Out   
    
    
-# - Tools:   
+## - Tools:   
 •Flutter    
 •Dart    
 •Provider   
@@ -27,7 +27,7 @@ using Flutter and Firebase to make a completely Responsive Full Stack Instagram 
 •Version Control System (Git, GitHub)   
 
 
-# - Libraries:   
+## - Libraries:   
 •Cloud Firestore   
 •Firebase Auth    
 •Firebase Core   
